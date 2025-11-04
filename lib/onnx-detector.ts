@@ -50,9 +50,12 @@ function preprocessImage(
   canvas.width = modelWidth;
   canvas.height = modelHeight;
   
-  const scale = Math.min(modelWidth / image.width, modelHeight / image.height);
-  const scaledWidth = image.width * scale;
-  const scaledHeight = image.height * scale;
+  const imgWidth = image instanceof HTMLImageElement ? image.naturalWidth : image.width;
+  const imgHeight = image instanceof HTMLImageElement ? image.naturalHeight : image.height;
+  
+  const scale = Math.min(modelWidth / imgWidth, modelHeight / imgHeight);
+  const scaledWidth = imgWidth * scale;
+  const scaledHeight = imgHeight * scale;
   const offsetX = (modelWidth - scaledWidth) / 2;
   const offsetY = (modelHeight - scaledHeight) / 2;
   
