@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  turbopack: {},
   webpack: (config, { isServer }) => {
     if (!isServer) {
       config.resolve.fallback = {
@@ -14,6 +15,7 @@ const nextConfig: NextConfig = {
       test: /\.wasm$/,
       type: 'asset/resource',
     });
+    
 
     return config;
   },

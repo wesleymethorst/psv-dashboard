@@ -81,6 +81,7 @@ function preprocessImage(
 
 function processOutput(
   output: Float32Array,
+  outputShape: number[],
   scale: number,
   offsetX: number,
   offsetY: number,
@@ -88,28 +89,71 @@ function processOutput(
   iouThreshold: number = 0.45
 ): Detection[] {
   const detections: Detection[] = [];
-  const numDetections = output.length / 6;
   
-  for (let i = 0; i < numDetections; i++) {
-    const offset = i * 6;
-    const x1 = output[offset];
-    const y1 = output[offset + 1];
-    const x2 = output[offset + 2];
-    const y2 = output[offset + 3];
-    const confidence = output[offset + 4];
-    const classId = Math.round(output[offset + 5]);
+  let numPredictions: number;
+  let numClasses: number;
+  
+  if (outputShape.length === 3 && outputShape[0] === 1) {
+    numPredictions = outputShape[2];
+    numClasses = outputShape[1] - 4;
     
-    if (confidence >= confidenceThreshold && classId < classes.length) {
-      detections.push({
-        label: classes[classId],
-        confidence: confidence,
-        box: {
-          x: (x1 - offsetX) / scale,
-          y: (y1 - offsetY) / scale,
-          width: (x2 - x1) / scale,
-          height: (y2 - y1) / scale,
-        },
-      });
+    for (let i = 0; i < numPredictions; i++) {
+      const cx = output[i];
+      const cy = output[numPredictions + i];
+      const w = output[2 * numPredictions + i];
+      const h = output[3 * numPredictions + i];
+      
+      let maxClassScore = 0;
+      let maxClassId = 0;
+      
+      for (let c = 0; c < numClasses; c++) {
+        const classScore = output[(4 + c) * numPredictions + i];
+        if (classScore > maxClassScore) {
+          maxClassScore = classScore;
+          maxClassId = c;
+        }
+      }
+      
+      if (maxClassScore >= confidenceThreshold && maxClassId < classes.length) {
+        const x1 = cx - w / 2;
+        const y1 = cy - h / 2;
+        
+        detections.push({
+          label: classes[maxClassId],
+          confidence: maxClassScore,
+          box: {
+            x: (x1 - offsetX) / scale,
+            y: (y1 - offsetY) / scale,
+            width: w / scale,
+            height: h / scale,
+          },
+        });
+      }
+    }
+  } else {
+    const numDetections = output.length / 6;
+    
+    for (let i = 0; i < numDetections; i++) {
+      const offset = i * 6;
+      const x1 = output[offset];
+      const y1 = output[offset + 1];
+      const x2 = output[offset + 2];
+      const y2 = output[offset + 3];
+      const confidence = output[offset + 4];
+      const classId = Math.round(output[offset + 5]);
+      
+      if (confidence >= confidenceThreshold && classId < classes.length) {
+        detections.push({
+          label: classes[classId],
+          confidence: confidence,
+          box: {
+            x: (x1 - offsetX) / scale,
+            y: (y1 - offsetY) / scale,
+            width: (x2 - x1) / scale,
+            height: (y2 - y1) / scale,
+          },
+        });
+      }
     }
   }
   
@@ -171,7 +215,12 @@ export async function detectLogos(
   feeds[session.inputNames[0]] = tensor;
   
   const results = await session.run(feeds);
-  const output = results[session.outputNames[0]].data as Float32Array;
+  const outputTensor = results[session.outputNames[0]];
+  const output = outputTensor.data as Float32Array;
+  const outputShape = outputTensor.dims as number[];
   
-  return processOutput(output, scale, offsetX, offsetY, confidenceThreshold);
+  console.log('ONNX Output Shape:', outputShape);
+  console.log('First 20 values:', Array.from(output.slice(0, 20)));
+  
+  return processOutput(output, outputShape, scale, offsetX, offsetY, confidenceThreshold);
 }
