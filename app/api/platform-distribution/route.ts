@@ -55,7 +55,10 @@ export async function GET() {
       })
       .sort((a, b) => b.percentage - a.percentage)
     
-    return NextResponse.json(result)
+    return NextResponse.json({
+      platforms: result,
+      total: total
+    })
   } catch (error) {
     console.error('Error processing CSV:', error)
     return NextResponse.json(

@@ -85,7 +85,39 @@ export default function SentimentGauge() {
         >
           <ChartTooltip
             cursor={false}
-            content={<ChartTooltipContent hideLabel />}
+            content={({ active, payload }) => {
+              if (!active || !payload || !payload.length) return null
+              
+              const data = payload[0]?.payload || chartData[0]
+              return (
+                <div className="rounded-lg border bg-background px-3 py-2 shadow-md">
+                  <div className="font-semibold mb-2">Sentiment Overview</div>
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2 text-sm">
+                      <div 
+                        className="w-3 h-3 rounded-sm" 
+                        style={{ backgroundColor: chartConfig.positive.color }}
+                      />
+                      <span>Positive: {data.positive?.toFixed(1) || displayData.averagePositiveSentiment.toFixed(1)}%</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm">
+                      <div 
+                        className="w-3 h-3 rounded-sm" 
+                        style={{ backgroundColor: chartConfig.neutral.color }}
+                      />
+                      <span>Neutral: {data.neutral?.toFixed(1) || displayData.averageNeutralSentiment.toFixed(1)}%</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm">
+                      <div 
+                        className="w-3 h-3 rounded-sm" 
+                        style={{ backgroundColor: chartConfig.negative.color }}
+                      />
+                      <span>Negative: {data.negative?.toFixed(1) || displayData.averageNegativeSentiment.toFixed(1)}%</span>
+                    </div>
+                  </div>
+                </div>
+              )
+            }}
           />
           <PolarRadiusAxis tick={false} tickLine={false} axisLine={false}>
             <Label

@@ -1,6 +1,7 @@
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
 import PlatformDistributionChart from "@/components/homepage/platform-distribution-chart"
 import SentimentGauge from "@/components/homepage/sentiment-gauge"
+import PlayerSentimentChart from "@/components/homepage/player-sentiment-chart"
 
 export default function Home() {
   return (
@@ -39,6 +40,9 @@ export default function Home() {
                 <CardTitle>Player Sentiment Snapshot</CardTitle>
                 <CardDescription>Distribution of fan tone per player</CardDescription>
               </CardHeader>
+              <CardContent>
+                <PlayerSentimentChart />
+              </CardContent>
             </Card>
             <Card>
               <CardHeader>
