@@ -73,66 +73,103 @@ export default function PlayerSentimentChart() {
   }))
 
   return (
-    <ChartContainer config={chartConfig} className="h-80 w-full">
-      <BarChart
-        data={chartData}
-        layout="vertical"
-        margin={{ top: 20, right: 60, left: 20, bottom: 5 }}
-      >
-        <ChartTooltip
-          content={({ active, payload }) => {
-            if (!active || !payload || !payload.length) return null
-            
-            const data = payload[0].payload
-            return (
-              <div className="rounded-lg border bg-background px-3 py-2 shadow-md">
-                <div className="font-semibold">{data.name}</div>
-                <div className="text-sm text-muted-foreground mt-1">
-                  <div style={{ color: chartConfig.positive.color }}>
-                    Positive: {data.positive.toFixed(1)}%
-                  </div>
-                  <div style={{ color: chartConfig.neutral.color }}>
-                    Neutral: {data.neutral.toFixed(1)}%
-                  </div>
-                  <div style={{ color: chartConfig.negative.color }}>
-                    Negative: {data.negative.toFixed(1)}%
+    <div>
+      <ChartContainer config={chartConfig} className="h-80 w-full">
+        <BarChart
+          data={chartData}
+          layout="vertical"
+          margin={{ top: 20, right: 60, left: 20, bottom: 5 }}
+        >
+          <ChartTooltip
+            content={({ active, payload }) => {
+              if (!active || !payload || !payload.length) return null
+              
+              const data = payload[0].payload
+              return (
+                <div className="rounded-lg border bg-background px-3 py-2 shadow-md">
+                  <div className="font-semibold mb-2">{data.name}</div>
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2 text-sm">
+                      <div 
+                        className="w-3 h-3 rounded-sm" 
+                        style={{ backgroundColor: chartConfig.positive.color }}
+                      />
+                      <span>Positive: {data.positive.toFixed(1)}%</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm">
+                      <div 
+                        className="w-3 h-3 rounded-sm" 
+                        style={{ backgroundColor: chartConfig.neutral.color }}
+                      />
+                      <span>Neutral: {data.neutral.toFixed(1)}%</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm">
+                      <div 
+                        className="w-3 h-3 rounded-sm" 
+                        style={{ backgroundColor: chartConfig.negative.color }}
+                      />
+                      <span>Negative: {data.negative.toFixed(1)}%</span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            )
-          }}
-        />
-        <XAxis
-          type="number"
-          domain={[0, 100]}
-          hide
-        />
-        <YAxis
-          type="category"
-          dataKey="name"
-          width={100}
-          tick={{ fontSize: 12 }}
-        />
-        <Bar
-          dataKey="positive"
-          stackId="sentiment"
-          fill="var(--color-positive)"
-          radius={[0, 0, 0, 0]}
-        />
-        <Bar
-          dataKey="neutral"
-          stackId="sentiment"
-          fill="var(--color-neutral)"
-          radius={[0, 0, 0, 0]}
-        />
-        <Bar
-          dataKey="negative"
-          stackId="sentiment"
-          fill="var(--color-negative)"
-          radius={[0, 4, 4, 0]}
-        />
-      </BarChart>
-    </ChartContainer>
+              )
+            }}
+          />
+          <XAxis
+            type="number"
+            domain={[0, 100]}
+            hide
+          />
+          <YAxis
+            type="category"
+            dataKey="name"
+            width={100}
+            tick={{ fontSize: 12 }}
+          />
+          <Bar
+            dataKey="positive"
+            stackId="sentiment"
+            fill="var(--color-positive)"
+            radius={[0, 0, 0, 0]}
+          />
+          <Bar
+            dataKey="neutral"
+            stackId="sentiment"
+            fill="var(--color-neutral)"
+            radius={[0, 0, 0, 0]}
+          />
+          <Bar
+            dataKey="negative"
+            stackId="sentiment"
+            fill="var(--color-negative)"
+            radius={[0, 4, 4, 0]}
+          />
+        </BarChart>
+      </ChartContainer>
+      <div className="flex items-center justify-center gap-6 mt-4">
+        <div className="flex items-center gap-2">
+          <div 
+            className="w-4 h-4 rounded-sm" 
+            style={{ backgroundColor: chartConfig.positive.color }}
+          />
+          <span className="text-sm text-muted-foreground">Positive</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <div 
+            className="w-4 h-4 rounded-sm" 
+            style={{ backgroundColor: chartConfig.neutral.color }}
+          />
+          <span className="text-sm text-muted-foreground">Neutral</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <div 
+            className="w-4 h-4 rounded-sm" 
+            style={{ backgroundColor: chartConfig.negative.color }}
+          />
+          <span className="text-sm text-muted-foreground">Negative</span>
+        </div>
+      </div>
+    </div>
   )
 }
 

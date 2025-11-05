@@ -37,11 +37,6 @@ export async function GET(request: Request) {
       }
     }
 
-    // If sentiment analysis is not requested, return just names
-    if (!sentiment) {
-      return NextResponse.json(players)
-    }
-
     console.log(`[Player Sentiment] Starting analysis for ${players.length} players`)
 
     // Sentiment analysis: load first 100 comments
