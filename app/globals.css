@@ -120,3 +120,32 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  
+  .scrollbar-thumb-zinc-300::-webkit-scrollbar-thumb {
+    background-color: rgb(212, 212, 216);
+    border-radius: 3px;
+  }
+  
+  .scrollbar-thumb-zinc-600::-webkit-scrollbar-thumb {
+    background-color: rgb(82, 82, 91);
+    border-radius: 3px;
+  }
+  
+  .scrollbar-track-transparent::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+  
+  .scrollbar-thin:hover::-webkit-scrollbar-thumb {
+    background-color: rgb(161, 161, 170);
+  }
+  
+  .dark .scrollbar-thin:hover::-webkit-scrollbar-thumb {
+    background-color: rgb(113, 113, 122);
+  }
+}
