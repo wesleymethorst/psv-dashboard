@@ -16,7 +16,7 @@ export default function Header() {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
             <Image
-              src="/psv_logo.svg"
+              src="/logos/psv.svg"
               alt="PSV Logo"
               width={60}
               height={45}
@@ -34,8 +34,8 @@ export default function Header() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="last-7-days">Last 7 Days</SelectItem>
-                <SelectItem value="week">Week</SelectItem>
-                <SelectItem value="month">Month</SelectItem>
+                <SelectItem value="last-30-days">Last 30 Days</SelectItem>
+                <SelectItem value="last-90-days">Last 90 Days</SelectItem>
               </SelectContent>
             </Select>
             <Select defaultValue="all-platforms">
@@ -48,7 +48,7 @@ export default function Header() {
                 <SelectItem value="tiktok">TikTok</SelectItem>
                 <SelectItem value="youtube">YouTube</SelectItem>
                 <SelectItem value="facebook">Facebook</SelectItem>
-                <SelectItem value="x">X</SelectItem>
+                <SelectItem value="x">Twitter</SelectItem>
               </SelectContent>
             </Select>
           </div>
