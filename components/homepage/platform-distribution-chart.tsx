@@ -118,10 +118,8 @@ export default function PlatformDistributionChart() {
             radius={[0, 4, 4, 0]}
             label={({ value, x, y, width, height }) => {
               const displayValue = value ?? 0
-              console.log('Label props:', { x, y, width, height, value, displayValue })
               const xPos = x + width + 5
               const yPos = y + height / 2
-              console.log('Calculated positions:', { xPos, yPos })
               return (
                 <text
                   x={xPos}

@@ -37,8 +37,6 @@ export async function GET(request: Request) {
       }
     }
 
-    console.log(`[Player Sentiment] Starting analysis for ${players.length} players`)
-
     // Sentiment analysis: load first 100 comments
     const commentsPath = path.join(process.cwd(), 'public', 'data', 'comments_combined.csv')
     const commentsText = fs.readFileSync(commentsPath, 'utf-8')
@@ -72,16 +70,12 @@ export async function GET(request: Request) {
       }
     }
 
-    console.log(`[Player Sentiment] Loaded ${comments.length} comments for analysis`)
-
     // For each player, use OpenAI to match in comments and calculate sentiment
     // Process players in parallel with batch comment analysis
     const playerSentiments: PlayerSentiment[] = []
 
     // Process all players in parallel (with concurrency limit to avoid rate limits)
     const processPlayer = async (playerName: string): Promise<PlayerSentiment | null> => {
-      console.log(`[Player Sentiment] Analyzing player: ${playerName}`)
-      
       try {
         // Send all comments in one batch request
         const commentsList = comments.map((c, idx) => `${idx + 1}. "${c.comment}"`).join('\n')
@@ -115,8 +109,6 @@ export async function GET(request: Request) {
           const avgNeutral = matchingComments.reduce((sum: number, c: { negative: number; neutral: number; positive: number }) => sum + c.neutral, 0) / matchingComments.length
           const avgPositive = matchingComments.reduce((sum: number, c: { negative: number; neutral: number; positive: number }) => sum + c.positive, 0) / matchingComments.length
 
-          console.log(`[Player Sentiment] ${playerName}: ${matchingComments.length} matches - Negative: ${avgNegative.toFixed(2)}%, Neutral: ${avgNeutral.toFixed(2)}%, Positive: ${avgPositive.toFixed(2)}%`)
-
           return {
             name: playerName,
             negative: Number(avgNegative.toFixed(2)),
@@ -124,7 +116,6 @@ export async function GET(request: Request) {
             positive: Number(avgPositive.toFixed(2)),
           }
         } else {
-          console.log(`[Player Sentiment] ${playerName}: No matches found`)
           return null
         }
       } catch (error) {
@@ -137,7 +128,6 @@ export async function GET(request: Request) {
     const batchSize = 5
     for (let i = 0; i < players.length; i += batchSize) {
       const batch = players.slice(i, i + batchSize)
-      console.log(`[Player Sentiment] Processing batch ${Math.floor(i / batchSize) + 1} (${batch.length} players)`)
       
       const results = await Promise.all(batch.map(processPlayer))
       
@@ -152,8 +142,6 @@ export async function GET(request: Request) {
     const topPlayers = playerSentiments
       .sort((a, b) => b.positive - a.positive)
       .slice(0, 4)
-
-    console.log(`[Player Sentiment] Top 4 players:`, topPlayers.map(p => `${p.name} (${p.positive}% positive)`).join(', '))
 
     return NextResponse.json(topPlayers)
   } catch (error) {

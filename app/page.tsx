@@ -2,6 +2,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/com
 import PlatformDistributionChart from "@/components/homepage/platform-distribution-chart"
 import SentimentGauge from "@/components/homepage/sentiment-gauge"
 import PlayerSentimentChart from "@/components/homepage/player-sentiment-chart"
+import HashtagPerformanceChart from "@/components/homepage/hashtag-performance-chart"
 
 export default function Home() {
   return (
@@ -49,6 +50,9 @@ export default function Home() {
                 <CardTitle>Top Performing Hashtags</CardTitle>
                 <CardDescription>Content engagement by hashtag</CardDescription>
               </CardHeader>
+              <CardContent>
+                <HashtagPerformanceChart />
+              </CardContent>
             </Card>
             <Card>
               <CardHeader>
