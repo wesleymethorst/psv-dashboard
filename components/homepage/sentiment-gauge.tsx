@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import { Label, PolarRadiusAxis, RadialBar, RadialBarChart } from "recharts"
 import { ChartContainer, ChartConfig, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
+import { Smile, Frown, Meh } from "lucide-react"
 
 interface SentimentStats {
   totalComments: number
@@ -123,23 +124,56 @@ export default function SentimentGauge() {
             <Label
               content={({ viewBox }) => {
                 if (viewBox && "cx" in viewBox && "cy" in viewBox) {
+                  // Determine mood icon and color
+                  let MoodIcon = Meh
+                  let moodColor = chartConfig.neutral.color
+                  if (data) {
+                    if (data.averagePositiveSentiment > 50) {
+                      MoodIcon = Smile
+                      moodColor = chartConfig.positive.color
+                    } else if (data.averageNegativeSentiment > 50) {
+                      MoodIcon = Frown
+                      moodColor = chartConfig.negative.color
+                    }
+                  }
+                  
+                  const iconSize = 48
+                  const iconX = (viewBox.cx || 0) - iconSize / 2
+                  const iconY = (viewBox.cy || 0) - 95
+                  
                   return (
-                    <text x={viewBox.cx} y={viewBox.cy} textAnchor="middle">
-                      <tspan
-                        x={viewBox.cx}
-                        y={(viewBox.cy || 0) - 16}
-                        className="fill-foreground text-2xl font-bold"
+                    <g>
+                      <foreignObject
+                        x={iconX}
+                        y={iconY}
+                        width={iconSize}
+                        height={iconSize}
                       >
-                        {displayData.totalComments.toLocaleString()}
-                      </tspan>
-                      <tspan
-                        x={viewBox.cx}
-                        y={(viewBox.cy || 0) + 4}
-                        className="fill-muted-foreground text-sm"
-                      >
-                        Comments analyzed
-                      </tspan>
-                    </text>
+                        <div className="flex items-center justify-center w-full h-full">
+                          <MoodIcon 
+                            size={iconSize} 
+                            color={moodColor}
+                            strokeWidth={2}
+                          />
+                        </div>
+                      </foreignObject>
+                      <text x={viewBox.cx} y={viewBox.cy} textAnchor="middle">
+                        <tspan
+                          x={viewBox.cx}
+                          y={(viewBox.cy || 0) - 16}
+                          className="fill-foreground text-2xl font-bold"
+                        >
+                          {displayData.totalComments.toLocaleString()}
+                        </tspan>
+                        <tspan
+                          x={viewBox.cx}
+                          y={(viewBox.cy || 0) + 4}
+                          className="fill-muted-foreground text-sm"
+                        >
+                          Comments analyzed
+                        </tspan>
+                      </text>
+                    </g>
                   )
                 }
               }}
