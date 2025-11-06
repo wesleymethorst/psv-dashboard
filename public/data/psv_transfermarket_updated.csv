@@ -1,0 +1,30 @@
+name,season_id,age,nationality,club,position,number,market_value_eur,appearances,starts,goals,assists,sub_in,sub_out,yellow_cards,red_cards,minutes_played,ppg,goals_per_match,assists_per_match,goals_assists_total,goals_assists_per_match,performance_score,GI_per_match,MV_GI_score
+Matej Kovář,25/26,25,Czech Republic,PSV Eindhoven,Goalkeeper,32,5000000,8,8,0,0,0,0,0,0,720.0,2.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+Nick Olij,25/26,30,Netherlands,PSV Eindhoven,Goalkeeper,1,3500000,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+Niek Schiks,25/26,21,Netherlands,PSV Eindhoven,Goalkeeper,24,250000,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+Ryan Flamingo,25/26,22,Netherlands/Suriname,PSV Eindhoven,Centre-Back,6,20000000,8,8,0,0,0,1,3,0,676.0,2.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+Sergiño Dest,25/26,24,United States/Netherlands,PSV Eindhoven,Right-Back,8,16000000,8,8,2,2,0,2,2,0,691.0,2.0,0.25,0.25,4.0,0.5,4.0,0.5,1.417
+Mauro Júnior,25/26,26,Brazil,PSV Eindhoven,Left-Back,17,12000000,4,4,0,2,1,1,0,0,275.0,2.5,0.0,0.5,2.0,0.5,2.0,0.5,1.282
+Kiliann Sildillia,25/26,23,France/Guadeloupe,PSV Eindhoven,Right-Back,25,10000000,6,5,0,0,2,1,0,0,269.0,2.4,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+Anass Salah-Eddine,25/26,23,Netherlands/Morocco,PSV Eindhoven,Left-Back,2,8000000,3,3,0,0,2,0,0,0,160.0,1.33,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+Yarek Gasiorowski,25/26,20,Spain/Poland,PSV Eindhoven,Centre-Back,3,7500000,8,8,2,1,1,2,0,0,574.0,2.0,0.25,0.13,3.0,0.38,3.0,0.375,0.803
+Adamo Nagalo,25/26,23,Burkina Faso/Côte d'Ivoire,PSV Eindhoven,Centre-Back,39,6000000,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+Armando Obispo,25/26,26,Netherlands/Curacao,PSV Eindhoven,Centre-Back,4,3000000,4,4,0,0,2,2,0,0,93.0,1.5,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+Eus Waayers,25/26,19,Netherlands,PSV Eindhoven,Right-Back,34,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+Ismael Saibari,25/26,24,Morocco/Belgium,PSV Eindhoven,Central Midfield,34,27000000,8,8,1,0,0,0,0,0,668.0,2.0,0.13,0.0,1.0,0.13,1.0,0.125,0.417
+Joey Veerman,25/26,26,Netherlands,PSV Eindhoven,Central Midfield,23,25000000,7,7,2,3,1,1,2,0,557.0,1.86,0.29,0.43,5.0,0.71,5.0,0.714,2.327
+Jerdy Schouten,25/26,28,Netherlands,PSV Eindhoven,Defensive Midfield,22,22000000,8,8,1,2,0,0,1,0,646.0,2.0,0.13,0.25,3.0,0.38,3.0,0.375,1.176
+Paul Wanner,25/26,19,Germany/Austria,PSV Eindhoven,Attacking Midfield,10,18000000,3,3,0,0,3,0,0,0,27.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+Guus Til,25/26,27,Netherlands,PSV Eindhoven,Attacking Midfield,20,12000000,8,8,2,0,5,3,0,0,427.0,2.0,0.25,0.0,2.0,0.25,2.0,0.25,0.641
+Isaac Babadi,25/26,20,Netherlands/Sierra Leone,PSV Eindhoven,Attacking Midfield,-,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+Tygo Land,25/26,19,Netherlands,PSV Eindhoven,Central Midfield,35,0,1,1,0,0,1,0,0,8,3.0,1.0,0.0,1.0,1.0,1.0,,0.0,0.0
+Joel van den Berg,25/26,18,Netherlands,PSV Eindhoven,Central Midfield,-,0,1,1,0,0,1,0,0,13,3.0,1.0,0.0,1.0,1.0,1.0,,0.0,0.0
+Noah Fernandez,25/26,17,Belgium/Jamaica,PSV Eindhoven,Attacking Midfield,9,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,,0.0,0.0
+Ivan Perisic,25/26,36,Croatia,PSV Eindhoven,Left Winger,5,1500000,8,8,1,5,0,2,0,0,699.0,2.0,0.13,0.63,6.0,0.75,6.0,0.75,0.687
+Ricardo Pepi,25/26,22,United States/Mexico,PSV Eindhoven,Centre-Forward,9,16000000,6,6,2,0,0,3,0,0,306.0,1.67,0.33,0.0,2.0,0.33,2.0,0.333,0.944
+Myron Boadu,25/26,24,Netherlands/Ghana,PSV Eindhoven,Centre-Forward,21,7000000,2,2,1,0,2,1,0,0,31.0,1.5,0.5,0.0,1.0,0.5,1.0,0.5,1.04
+Alassane Pléa,25/26,32,France/Mali,PSV Eindhoven,Centre-Forward,14,5000000,3,3,0,1,0,2,0,0,198.0,3.0,0.0,0.33,1.0,0.33,1.0,0.333,0.597
+Dennis Man,25/26,27,Romania,PSV Eindhoven,Right Winger,27,10000000,3,3,0,0,0,1,0,0,100.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+Ruben van Bommel,25/26,21,Netherlands,PSV Eindhoven,Left Winger,7,8000000,8,8,4,0,1,1,0,0,499.0,2.0,0.5,0.0,4.0,0.5,4.0,0.5,1.099
+Couhaib Driouech,25/26,23,Morocco/Netherlands,PSV Eindhoven,Left Winger,11,4000000,5,5,0,0,4,1,0,0,126.0,3.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+Esmir Bajraktarević,25/26,20,Bosnia-Herzegovina/United States,PSV Eindhoven,Right Winger,19,3000000,4,4,2,0,4,0,0,0,157.0,1.75,0.5,0.0,2.0,0.5,2.0,0.5,0.693
