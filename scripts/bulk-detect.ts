@@ -113,6 +113,45 @@ function processOutput(output: ort.Tensor, scaleX: number, scaleY: number, offse
   return detections;
 }
 
+function calculateIoU(box1: Detection['box'], box2: Detection['box']): number {
+  const x1 = Math.max(box1.x, box2.x);
+  const y1 = Math.max(box1.y, box2.y);
+  const x2 = Math.min(box1.x + box1.width, box2.x + box2.width);
+  const y2 = Math.min(box1.y + box1.height, box2.y + box2.height);
+  
+  const intersection = Math.max(0, x2 - x1) * Math.max(0, y2 - y1);
+  const area1 = box1.width * box1.height;
+  const area2 = box2.width * box2.height;
+  const union = area1 + area2 - intersection;
+  
+  return intersection / union;
+}
+
+function nms(detections: Detection[], iouThreshold: number = 0.45): Detection[] {
+  const sorted = detections.sort((a, b) => b.confidence - a.confidence);
+  const result: Detection[] = [];
+  
+  for (const detection of sorted) {
+    let keep = true;
+    
+    for (const selected of result) {
+      if (detection.label === selected.label) {
+        const iou = calculateIoU(detection.box, selected.box);
+        if (iou > iouThreshold) {
+          keep = false;
+          break;
+        }
+      }
+    }
+    
+    if (keep) {
+      result.push(detection);
+    }
+  }
+  
+  return result;
+}
+
 async function detectLogos(imageUrl: string, confidenceThreshold: number): Promise<Detection[]> {
   await loadModel();
   if (!model) throw new Error('Model not loaded');
@@ -124,7 +163,8 @@ async function detectLogos(imageUrl: string, confidenceThreshold: number): Promi
   const results = await model.run(feeds);
   const output = results[Object.keys(results)[0]];
   
-  return processOutput(output, scaleX, scaleY, offsetX, offsetY, confidenceThreshold);
+  const detections = processOutput(output, scaleX, scaleY, offsetX, offsetY, confidenceThreshold);
+  return nms(detections, 0.45);
 }
 
 async function main() {

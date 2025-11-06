@@ -68,7 +68,7 @@ export default function SponsorsPage() {
   const loadPosts = async () => {
     setLoading(true);
     try {
-      const response = await fetch('/api/instagram-posts?limit=100');
+      const response = await fetch('/api/instagram-posts?limit=1000');
       if (!response.ok) throw new Error('Failed to fetch posts');
       const data = await response.json();
       setPosts(data.posts);
@@ -84,28 +84,20 @@ export default function SponsorsPage() {
 
   const loadAllDetections = async () => {
     try {
-      const response = await fetch('/api/instagram-posts?limit=100');
+      const response = await fetch('/api/logo-detections/bulk?limit=10000');
       if (!response.ok) return;
-      const postsData = await response.json();
+      const data = await response.json();
       
-      const allDets: any[] = [];
-      for (const post of postsData.posts) {
-        const detResponse = await fetch(`/api/logo-detections/${post.id}`);
-        if (detResponse.ok) {
-          const detData = await detResponse.json();
-          if (detData.detections) {
-            allDets.push(...detData.detections.map((d: any) => ({
-              ...d,
-              post_date: post.taken_at,
-              post_id: post.id
-            })));
-          }
+      if (data.detections) {
+        setAllDetections(data.detections);
+        
+        const postsResponse = await fetch('/api/instagram-posts?limit=1000');
+        if (postsResponse.ok) {
+          const postsData = await postsResponse.json();
+          calculateBrandStats(data.detections, postsData.posts);
         }
+        calculateWeeklyData(data.detections);
       }
-      
-      setAllDetections(allDets);
-      calculateBrandStats(allDets, postsData.posts);
-      calculateWeeklyData(allDets);
     } catch (err) {
       console.error('Failed to load all detections:', err);
     }
@@ -115,7 +107,7 @@ export default function SponsorsPage() {
     const brandMap: { [key: string]: { total: number; postIds: Set<number> } } = {};
     
     detections.forEach((det) => {
-      const label = det.logo_label;
+      const label = det.logo_label.toLowerCase().trim();
       if (!brandMap[label]) {
         brandMap[label] = { total: 0, postIds: new Set() };
       }
@@ -135,6 +127,7 @@ export default function SponsorsPage() {
 
   const calculateWeeklyData = (detections: any[]) => {
     const weekMap: { [key: string]: { count: number; brands: { [key: string]: number } } } = {};
+    const allBrands = new Set<string>();
     
     detections.forEach((det) => {
       const date = new Date(det.post_date);
@@ -142,21 +135,31 @@ export default function SponsorsPage() {
       weekStart.setDate(date.getDate() - date.getDay());
       const weekKey = weekStart.toISOString().split('T')[0];
       
+      const label = det.logo_label.toLowerCase().trim();
+      allBrands.add(label);
+      
       if (!weekMap[weekKey]) {
         weekMap[weekKey] = { count: 0, brands: {} };
       }
       weekMap[weekKey].count += 1;
-      weekMap[weekKey].brands[det.logo_label] = (weekMap[weekKey].brands[det.logo_label] || 0) + 1;
+      weekMap[weekKey].brands[label] = (weekMap[weekKey].brands[label] || 0) + 1;
     });
 
     const weekly: WeeklyData[] = Object.entries(weekMap)
-      .map(([week, data]) => ({
-        week: new Date(week).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
-        count: data.count,
-        brands: data.brands,
-      }))
-      .sort((a, b) => new Date(a.week).getTime() - new Date(b.week).getTime())
-      .slice(-8);
+      .sort((a, b) => new Date(a[0]).getTime() - new Date(b[0]).getTime())
+      .slice(-12)
+      .map(([week, data]) => {
+        const brandsData: { [key: string]: number } = {};
+        allBrands.forEach(brand => {
+          brandsData[brand] = data.brands[brand] || 0;
+        });
+        
+        return {
+          week: new Date(week).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+          count: data.count,
+          brands: brandsData,
+        };
+      });
 
     setWeeklyData(weekly);
   };
@@ -195,7 +198,7 @@ export default function SponsorsPage() {
         const data = await response.json();
         if (data.detections && data.detections.length > 0) {
           const grouped = data.detections.reduce((acc: any, det: any) => {
-            const label = det.logo_label;
+            const label = det.logo_label.toLowerCase().trim();
             if (!acc[label]) {
               acc[label] = { logo_label: label, count: 0, total_confidence: 0 };
             }
@@ -284,7 +287,7 @@ export default function SponsorsPage() {
           <h1 className="text-xl font-bold text-zinc-900 dark:text-zinc-50">Sponsor Analytics</h1>
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid gap-4" style={{ gridTemplateColumns: 'auto 1fr' }}>
           <div className="space-y-3">
             <div className="bg-white dark:bg-zinc-800 rounded-lg shadow p-3">
               <div className="flex items-center justify-between mb-3">
@@ -329,24 +332,23 @@ export default function SponsorsPage() {
                       
                       const scaleX = img.clientWidth / img.naturalWidth;
                       const scaleY = img.clientHeight / img.naturalHeight;
-                      const centerX = (det.box.x + det.box.width / 2) * scaleX;
-                      const centerY = (det.box.y + det.box.height / 2) * scaleY;
+                      const boxX = det.box.x * scaleX;
+                      const boxY = det.box.y * scaleY;
+                      const boxWidth = det.box.width * scaleX;
+                      const boxHeight = det.box.height * scaleY;
                       
                       return (
                         <Tooltip key={idx}>
                           <TooltipTrigger asChild>
                             <div
-                              className="absolute cursor-pointer z-10"
+                              className="absolute cursor-pointer z-10 bg-white/30 hover:bg-black/40 hover:border-black/70 transition-all"
                               style={{
-                                left: `${centerX}px`,
-                                top: `${centerY}px`,
-                                transform: 'translate(-50%, -50%)',
+                                left: `${boxX}px`,
+                                top: `${boxY}px`,
+                                width: `${boxWidth}px`,
+                                height: `${boxHeight}px`,
                               }}
-                            >
-                              <div className="w-5 h-5 bg-black rounded-full flex items-center justify-center shadow-lg border-2 border-white hover:scale-110 transition-transform">
-                                <div className="w-2 h-2 bg-white rounded-full"></div>
-                              </div>
-                            </div>
+                            />
                           </TooltipTrigger>
                           <TooltipContent>
                             <p className="font-semibold capitalize">{det.label}</p>
@@ -409,7 +411,7 @@ export default function SponsorsPage() {
                   <div className="text-2xl font-bold text-zinc-900 dark:text-zinc-50">{brandStats.length}</div>
                 </div>
                 <div>
-                  <div className="text-xs text-zinc-600 dark:text-zinc-400 mb-1">Total Detections</div>
+                  <div className="text-xs text-zinc-600 dark:text-zinc-400 mb-1">Total Appearances</div>
                   <div className="text-2xl font-bold text-zinc-900 dark:text-zinc-50">{allDetections.length}</div>
                 </div>
                 <div>
@@ -453,7 +455,7 @@ export default function SponsorsPage() {
             </div>
 
             <div className="bg-white dark:bg-zinc-800 rounded-lg shadow p-4">
-              <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-50 mb-3">Weekly Detections</h3>
+              <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-50 mb-3">Weekly Appearances</h3>
               <ResponsiveContainer width="100%" height={250}>
                 <LineChart data={weeklyData}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
@@ -462,7 +464,17 @@ export default function SponsorsPage() {
                   <RechartsTooltip 
                     contentStyle={{ fontSize: '12px', backgroundColor: '#1f2937', border: 'none', borderRadius: '6px' }}
                   />
-                  <Line type="monotone" dataKey="count" stroke="#3b82f6" strokeWidth={2} />
+                  {brandStats.slice(0, 6).map((brand, idx) => (
+                    <Line 
+                      key={brand.label}
+                      type="monotone" 
+                      dataKey={`brands.${brand.label}`}
+                      name={brand.label}
+                      stroke={COLORS[idx % COLORS.length]} 
+                      strokeWidth={2}
+                      dot={{ r: 3 }}
+                    />
+                  ))}
                 </LineChart>
               </ResponsiveContainer>
             </div>
