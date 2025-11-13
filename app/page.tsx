@@ -4,6 +4,8 @@ import SentimentGauge from "@/components/homepage/sentiment-gauge"
 import PlayerSentimentChart from "@/components/homepage/player-sentiment-chart"
 import HashtagPerformanceChart from "@/components/homepage/hashtag-performance-chart"
 import PlayerMentionsOverview from "@/components/homepage/player-mentions-overview"
+import PlayerSentimentMarketValue from "@/components/homepage/Sentimen-market-value-chart"
+import SentimentJourneyChart from "@/components/homepage/sentiment-journey-chart"
 
 export default function Home() {
   return (
@@ -28,13 +30,24 @@ export default function Home() {
           </Card>
           <Card>
             <CardHeader>
-              <CardTitle>Most Visible Brand In Social Media</CardTitle>
+              <CardTitle>Sentiment vs Market Value</CardTitle>
             </CardHeader>
+
+            <CardContent>
+              <PlayerSentimentMarketValue />
+            </CardContent>
           </Card>
         </div>
         <div>
           <div className="mb-4">Sentiment Journey</div>
           <Card className="w-full mb-8">
+            <CardHeader>
+              <CardTitle>How it's Changing</CardTitle>
+              <CardDescription>Average positive sentiment over 14 days</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <SentimentJourneyChart />
+            </CardContent>
           </Card>
         </div>
         <div>
