@@ -68,15 +68,12 @@ export default function PlayerMentionsOverview() {
 
   return (
     
-    <div className="space-y-4">
-      <h2 className='text-lg font-semibold text-black-800 flex items-center justify-between'>
-        Player Mentions Overview
-      </h2>
+    <div className="space-y-2">
       {/* 🟩 Card: jugador más positivo */}
       <CardEmotion className=" bg-green-50 border border-green-100 rounded-xl shadow-sm p-6 flex flex-col sm:flex-row items-center justify-between">
         <div className="flex flex-col items-center sm:items-start text-center sm:text-left space-y-2">
         <p className="text-green-700 font-medium text-sm">Positive Sentiment</p>
-        <div className="w-16 h-16 rounded-full bg-gray-300 flex items-center justify-center">
+        <div className="w-12 h-12 rounded-full bg-gray-300 flex items-center justify-center">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="w-8 h-8 text-white"
@@ -103,7 +100,7 @@ export default function PlayerMentionsOverview() {
       <CardEmotion className=" bg-red-50 border border-red-100 rounded-xl shadow-sm p-6 flex flex-col sm:flex-row items-center justify-between">
         <div className="flex flex-col items-center sm:items-start text-center sm:text-left space-y-2">
         <p className="text-red-700 font-medium text-sm">Negative Sentiment</p>
-        <div className="w-16 h-16 rounded-full bg-gray-300 flex items-center justify-center">
+        <div className="w-12 h-12 rounded-full bg-gray-300 flex items-center justify-center">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="w-8 h-8 text-white"
