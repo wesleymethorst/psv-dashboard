@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { Card,CardAction, CardContent, CardDescription, CardFooter, CardHeader,CardTitle,} from "@/components/ui/card"
+import { Card,CardAction, CardContent, CardDescription, CardEmotion, CardFooter, CardHeader,CardTitle,} from "@/components/ui/card"
 import { ChartContainer, ChartConfig, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 
 interface PlayerSentiment {
@@ -67,40 +67,64 @@ export default function PlayerMentionsOverview() {
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+    
+    <div className="space-y-4">
+      <h2 className='text-lg font-semibold text-black-800 flex items-center justify-between'>
+        Player Mentions Overview
+      </h2>
       {/* 🟩 Card: jugador más positivo */}
-      <Card className="border-green-500 shadow-md">
-        <CardHeader>
-          <CardTitle className="text-green-600 text-lg font-bold" >
-            Most Positive Player 
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-2">
-          <p className="text-xl font-semibold">{mostPositive.name}</p>
+      <CardEmotion className=" bg-green-50 border border-green-100 rounded-xl shadow-sm p-6 flex flex-col sm:flex-row items-center justify-between">
+        <div className="flex flex-col items-center sm:items-start text-center sm:text-left space-y-2">
+        <p className="text-green-700 font-medium text-sm">Positive Sentiment</p>
+        <div className="w-16 h-16 rounded-full bg-gray-300 flex items-center justify-center">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="w-8 h-8 text-white"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth="2"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M5.121 17.804A4 4 0 017 16h10a4 4 0 011.879.496M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+            />
+          </svg>
+        </div>
+          <p className="text-l font-semibold">{mostPositive.name}</p>
           <div className="space-y-1 text-sm">
-            <p>👍 Positive: {mostPositive.positive.toFixed(1)}%</p>
-            <p>😐 Neutral: {mostPositive.neutral.toFixed(1)}%</p>
-            <p>👎 Negative: {mostPositive.negative.toFixed(1)}%</p>
+           {mostPositive.mentions} <span className="text-gray-400">mentions</span>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </CardEmotion>
 
       {/* 🟥 Card: jugador más negativo */}
-      <Card className="border-red-500 shadow-md">
-        <CardHeader>
-          <CardTitle className="text-red-600 text-lg font-bold">
-            Most Negative Player 
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-2">
-          <p className="text-xl font-semibold">{mostNegative.name}</p>
+      <CardEmotion className=" bg-red-50 border border-red-100 rounded-xl shadow-sm p-6 flex flex-col sm:flex-row items-center justify-between">
+        <div className="flex flex-col items-center sm:items-start text-center sm:text-left space-y-2">
+        <p className="text-red-700 font-medium text-sm">Negative Sentiment</p>
+        <div className="w-16 h-16 rounded-full bg-gray-300 flex items-center justify-center">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="w-8 h-8 text-white"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth="2"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M5.121 17.804A4 4 0 017 16h10a4 4 0 011.879.496M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+            />
+          </svg>
+        </div>
+          <p className="text-l font-semibold">{mostNegative.name}</p>
           <div className="space-y-1 text-sm">
-            <p>👍 Positive: {mostNegative.positive.toFixed(1)}%</p>
-            <p>😐 Neutral: {mostNegative.neutral.toFixed(1)}%</p>
-            <p>👎 Negative: {mostNegative.negative.toFixed(1)}%</p>
+            {mostNegative.mentions} <span className="text-gray-400">mentions</span>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </CardEmotion>
     </div>
   )
 }

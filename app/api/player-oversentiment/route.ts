@@ -110,7 +110,6 @@ export async function GET(request: Request) {
           const avgNeutral = matchingComments.reduce((sum: number, c: { negative: number; neutral: number; positive: number }) => sum + c.neutral, 0) / matchingComments.length
           const avgPositive = matchingComments.reduce((sum: number, c: { negative: number; neutral: number; positive: number }) => sum + c.positive, 0) / matchingComments.length
 
-          console.log(`[Player Sentiment] ${playerName}: Mentions=${matchingComments.length}, Neg=${avgNegative.toFixed(2)}, Neu=${avgNeutral.toFixed(2)}, Pos=${avgPositive.toFixed(2)}`)
           return {
             name: playerName,
             mentions: matchingComments.length,
@@ -141,11 +140,10 @@ export async function GET(request: Request) {
       }
     }
 
-    // Sort by positive sentiment (descending) and return top 4
     const validPlayers = playerSentiments.filter(p => p.mentions > 0)
     const mostMentioned = [...validPlayers].sort((a, b) => b.mentions - a.mentions).slice(0, 2)
     const mostPositive = validPlayers.reduce((prev,curr) => curr.positive > prev.positive ? curr : prev )
-    const mostNegative = validPlayers.reduce((prev,curr) => curr.positive > prev.positive ? curr:prev) 
+    const mostNegative = validPlayers.reduce((prev,curr) => curr.negative > prev.negative ? curr:prev) 
     return NextResponse.json({
       mostMentioned,
       mostPositive,
