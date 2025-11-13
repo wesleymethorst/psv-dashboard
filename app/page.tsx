@@ -3,6 +3,7 @@ import PlatformDistributionChart from "@/components/homepage/platform-distributi
 import SentimentGauge from "@/components/homepage/sentiment-gauge"
 import PlayerSentimentChart from "@/components/homepage/player-sentiment-chart"
 import HashtagPerformanceChart from "@/components/homepage/hashtag-performance-chart"
+import PlayerMentionsOverview from "@/components/homepage/player-mentions-overview"
 
 export default function Home() {
   return (
@@ -21,6 +22,9 @@ export default function Home() {
             <CardHeader>
               <CardTitle>Top Players This Week Around Social Media</CardTitle>
             </CardHeader>
+            <CardContent>
+                <PlayerMentionsOverview />
+            </CardContent>
           </Card>
           <Card>
             <CardHeader>
