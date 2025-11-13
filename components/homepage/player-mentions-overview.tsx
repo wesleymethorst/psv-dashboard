@@ -72,7 +72,6 @@ export default function PlayerMentionsOverview() {
       {/* 🟩 Card: jugador más positivo */}
       <CardEmotion className=" bg-green-50 border border-green-100 rounded-xl shadow-sm p-6 flex flex-col sm:flex-row items-center justify-between">
         <div className="flex flex-col items-center sm:items-start text-center sm:text-left space-y-2">
-        <p className="text-green-700 font-medium text-sm">Positive Sentiment</p>
         <div className="w-12 h-12 rounded-full bg-gray-300 flex items-center justify-center">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -94,12 +93,12 @@ export default function PlayerMentionsOverview() {
            {mostPositive.mentions} <span className="text-gray-400">mentions</span>
           </div>
         </div>
+        <div className="self-start text-green-700 font-medium text-sm"> Positive Sentiment </div>
       </CardEmotion>
 
       {/* 🟥 Card: jugador más negativo */}
       <CardEmotion className=" bg-red-50 border border-red-100 rounded-xl shadow-sm p-6 flex flex-col sm:flex-row items-center justify-between">
         <div className="flex flex-col items-center sm:items-start text-center sm:text-left space-y-2">
-        <p className="text-red-700 font-medium text-sm">Negative Sentiment</p>
         <div className="w-12 h-12 rounded-full bg-gray-300 flex items-center justify-center">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -121,6 +120,7 @@ export default function PlayerMentionsOverview() {
             {mostNegative.mentions} <span className="text-gray-400">mentions</span>
           </div>
         </div>
+        <div className="self-start text-red-700 font-medium text-sm"> Negative Sentiment </div>
       </CardEmotion>
     </div>
   )
